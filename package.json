@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "install": "npm install express http path",
+        "install": "npm install express http path groq-sdk ",
         "start": "node index.js"
     }
 }
