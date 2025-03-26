@@ -1,0 +1,6 @@
+{
+    "scripts": {
+        "install": "npm install express http path",
+        "start": "node index.js"
+    }
+}
