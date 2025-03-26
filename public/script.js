@@ -13,7 +13,8 @@ document.getElementById('ai-form').addEventListener('submit', async (event) => {
         });
 
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            const errorData = await response.json();
+            throw new Error(`Network response was not ok: ${errorData.error}`);
         }
 
         const data = await response.json();
