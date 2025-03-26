@@ -4,7 +4,7 @@ const axios = require('axios');
 require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 8080;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
