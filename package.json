@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "install": "npm install axios path express",
+        "install": "npm install axios path express dotenv",
         "start": "node index.js"
     }
 }

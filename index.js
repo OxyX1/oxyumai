@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
+require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 const port = 3000;
@@ -16,9 +17,9 @@ app.post('/process-data', async (req, res) => {
     const data = req.body;
 
     try {
-        // Replace with your Groq API key and endpoint
-        const GROQ_API_KEY = 'your_groq_api_key';
-        const GROQ_API_ENDPOINT = 'https://api.groq.com/openai/v1/chat/completions';
+        // Use environment variables for API key and endpoint
+        const GROQ_API_KEY = process.env.GROQ_API_KEY;
+        const GROQ_API_ENDPOINT = process.env.GROQ_API_ENDPOINT;
 
         const response = await axios.post(GROQ_API_ENDPOINT, data, {
             headers: {
