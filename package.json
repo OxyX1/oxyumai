@@ -1,6 +1,6 @@
 {
     "scripts": {
         "install": "pip install Flask requests",
-        "start": "node index.js"
+        "start": "python app.py"
     }
 }
