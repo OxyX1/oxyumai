@@ -1,7 +1,4 @@
 {
-    "name": "oxyumai",
-    "version": "1.0.0",
-    "description": "A lightweight ai website were you can import ai models and image generation completly free.",
     "main": "app.py",
     "scripts": {
       "start": "python app.py",
@@ -11,9 +8,4 @@
       "flask": "^1.1.2",
       "requests": "^2.24.0"
     },
-    "devDependencies": {},
-    "engines": {
-      "node": ">=18.0.0"
-    }
-  }
-  
+}
