@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const path = require("path");
 const { exec } = require("child_process");
-import Groq from "groq-sdk";
+const Groq = require("groq-sdk");
 
 // Ensure the GROQ_API_KEY is properly set in the environment
 exec("export GROQ_API_KEY=$GROQ_API_KEY && echo $GROQ_API_KEY", { env: { ...process.env } }, 
