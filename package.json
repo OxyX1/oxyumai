@@ -1,0 +1,6 @@
+{
+    "scripts": {
+        "install": "npm install axios path express",
+        "start": "node index.js"
+    }
+}
