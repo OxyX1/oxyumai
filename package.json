@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "install": "npm install axios path express dotenv",
+        "install": "pip install Flask requests",
         "start": "node index.js"
     }
 }
