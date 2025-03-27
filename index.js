@@ -38,6 +38,12 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public", "chatbot")));
+app.use(express.static(path.join(__dirname, "public", "imageline")));
+app.use(express.static(path.join(__dirname, "public", "playground")));
+
+
+
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
