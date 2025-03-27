@@ -5,63 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
-            margin: 20px;
-        }
-
-        html, body {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            width: 100vw;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            background: rgb(14, 14, 14);
+            background: #121212;
+            color: #d6d6d6;
         }
 
         .container {
             display: flex;
-            height: calc(80vh + 50);
-            width: 95vw;
+            flex: 1;
+            overflow: hidden;
         }
 
         .sidebar {
-            background: rgb(25, 25, 25);
+            background: #202020;
             width: 250px;
-            height: 80vh;
-            flex-shrink: 0;
-            right: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
         }
 
         .chatbox {
-            background: rgb(25, 25, 25);
             flex-grow: 1;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 20px;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            background: #202020;
         }
 
         .chat-input {
-            background: rgb(25, 25, 25);
-            width: calc(100vw - 50px);
-            height: 50px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #202020;
+            padding: 10px;
+            border-top: 1px solid #404040;
+        }
+
+        .chat-input input {
+            width: 90%;
+            padding: 10px;
+            border: none;
+            background: #303030;
+            color: #d6d6d6;
+            border-radius: 15px;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+        }
+
+        .chatbox .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 15px;
+            background: #303030;
         }
     </style>
     <title>oxyumai</title>
 </head>
 <body>
     <div class="container">
-        <div class="sidebar" id="sidebar"></div>
-        <div class="chatbox" id="chatbox">Main Chat Content</div>
+        <div class="sidebar" id="sidebar">
+            <!-- Sidebar content goes here -->
+        </div>
+        <div class="chatbox" id="chatbox">
+            <div class="message">Main Chat Content</div>
+        </div>
     </div>
-    <div class="chat-input" id="chat-input"></div>
+    <div class="chat-input" id="chat-input">
+        <input type="text" placeholder="Type a message..." />
+    </div>
     <script>
-        
+        // Your JavaScript goes here
     </script>
 </body>
 </html>
