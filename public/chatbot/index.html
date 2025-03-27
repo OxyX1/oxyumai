@@ -158,5 +158,69 @@
         <input type="text" placeholder="Type a message..." />
         <button>Send</button>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+  const chatInput = document.querySelector('.chat-input input');
+  const chatBox = document.querySelector('.chatbox');
+  const sendButton = document.querySelector('.chat-input button');
+
+  // Smooth scrolling to the bottom when new messages arrive
+  const scrollToBottom = () => {
+    chatBox.scrollTop = chatBox.scrollHeight;
+  };
+
+  // Create a new message element
+  const createMessageElement = (message, type = 'bot') => {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type === 'user' ? 'user' : ''}`;
+    messageDiv.textContent = message;
+    return messageDiv;
+  };
+
+  // Handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Get user message
+    const userMessage = chatInput.value.trim();
+    if (!userMessage) return;
+
+    // Add user message to chat
+    const userMsgEl = createMessageElement(userMessage, 'user');
+    chatBox.appendChild(userMsgEl);
+    scrollToBottom();
+
+    // Send request to server
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage })
+      });
+
+      const data = await response.json();
+      const botMsgEl = createMessageElement(data.response);
+      chatBox.appendChild(botMsgEl);
+      scrollToBottom();
+    } catch (error) {
+      console.error('Error:', error);
+      chatBox.appendChild(createMessageElement('Error: Could not get response', 'error'));
+    }
+
+    // Clear input after sending
+    chatInput.value = '';
+  };
+
+  // Attach event listeners
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      handleSubmit(e);
+    }
+  });
+
+  sendButton.addEventListener('click', handleSubmit);
+});
+    </script>
 </body>
 </html>
