@@ -1,0 +1,23 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+.sidebar {
+    background: rgb(25, 25, 25);
+    width: 150px;
+    height: 100vh;
+}
+
+.chatbox {
+    background: rgb(14, 14, 14);
+    width: 70vw;
+    height: 80vh;
+}
+
+.chat-input {
+    background: rgb(25, 25, 25);
+    width: 100vw;
+    height: 50px;
+}
