@@ -4,10 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        /* Modern CSS Variables */
+        :root {
+            --primary-bg: #1A1A1A;
+            --secondary-bg: #2D2D2D;
+            --text-color: #E5E5E5;
+            --accent-color: #64FFDA;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
         body, html {
@@ -16,8 +26,8 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            background: #121212;
-            color: #d6d6d6;
+            background: linear-gradient(135deg, var(--primary-bg), #121212);
+            color: var(--text-color);
         }
 
         .container {
@@ -27,68 +37,133 @@
         }
 
         .sidebar {
-            background: #202020;
-            width: 250px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: var(--secondary-bg);
+            width: 280px;
             padding: 20px;
+            border-radius: 0 20px 20px 0;
+            box-shadow: var(--shadow);
         }
 
         .chatbox {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
             padding: 20px;
-            background: #202020;
+            background: var(--secondary-bg);
+            border-radius: 20px 0 0 20px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            background: #2D2D2D;
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+            max-width: 70%;
+        }
+
+        .message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: var(--accent-color);
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .message-self {
+            align-self: flex-end;
+            background: var(--accent-color);
+            color: #1A1A1A;
         }
 
         .chat-input {
             display: flex;
-            justify-content: center;
+            padding: 15px 20px;
+            background: var(--secondary-bg);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .input-wrapper {
+            display: flex;
             align-items: center;
-            background: #202020;
+            width: 100%;
+            background: #222;
             padding: 10px;
-            border-top: 1px solid #404040;
+            border-radius: 30px;
         }
 
         .chat-input input {
-            width: 90%;
-            padding: 10px;
+            flex: 1;
+            background: transparent;
             border: none;
-            background: #303030;
-            color: #d6d6d6;
-            border-radius: 15px;
+            padding: 10px 15px;
+            color: white;
+            font-size: 16px;
         }
 
         .chat-input input:focus {
             outline: none;
+            box-shadow: 0 0 0 2px rgba(100,255,218,0.3);
         }
 
-        .chatbox .message {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 15px;
-            background: #303030;
+        /* Hover effects */
+        .sidebar:hover {
+            transform: translateX(-5px);
+            transition: transform 0.3s;
+        }
+
+        .message:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                border-radius: 0;
+            }
+            .chatbox {
+                border-radius: 0;
+            }
         }
     </style>
     <title>oxyumai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="sidebar" id="sidebar">
-            <!-- Sidebar content goes here -->
+            <!-- Sidebar content -->
         </div>
         <div class="chatbox" id="chatbox">
-            <div class="message">Main Chat Content</div>
+            <div class="chat-messages">
+                <div class="message">Main Chat Content</div>
+                <div class="message message-self">Your message</div>
+            </div>
         </div>
     </div>
     <div class="chat-input" id="chat-input">
-        <input type="text" placeholder="Type a message..." />
+        <div class="input-wrapper">
+            <input type="text" placeholder="Type a message..." />
+            <button class="send-btn">Send</button>
+        </div>
     </div>
-    <script>
-        // Your JavaScript goes here
-    </script>
 </body>
 </html>
