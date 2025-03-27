@@ -3,13 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/chatbot/style.css">
+    <style>
+        html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: rgb(14, 14, 14);
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 50px);
+    width: 100vw;
+}
+
+.sidebar {
+    background: rgb(25, 25, 25);
+    width: 150px;
+    height: 100%;
+}
+
+.chatbox {
+    background: rgb(14, 14, 14);
+    flex-grow: 1;
+    height: 100%;
+}
+
+.chat-input {
+    background: rgb(25, 25, 25);
+    width: 100vw;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+    </style>
     <title>oxyumai</title>
 </head>
 <body>
     <div class="sidebar" id="sidebar"></div>
     <div class="chatbox" id="chatbox"></div>
     <div class="chat-input" id="chat-input"></div>
-    <script src="/public/chatbot/script.js"></script>
+    <script>
+        
+    </script>
 </body>
 </html>
