@@ -4,50 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: rgb(14, 14, 14);
-}
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: rgb(14, 14, 14);
+        }
 
-.container {
-    display: flex;
-    height: calc(100vh - 50px);
-    width: 100vw;
-}
+        .container {
+            display: flex;
+            height: calc(100vh - 50px);
+            width: 100vw;
+        }
 
-.sidebar {
-    background: rgb(25, 25, 25);
-    width: 300px;
-    height: 100vh;
-}
+        .sidebar {
+            background: rgb(25, 25, 25);
+            width: 150px;
+            height: 100%;
+            flex-shrink: 0;
+        }
 
-.chatbox {
-    background: rgb(14, 14, 14);
-    flex-grow: 1;
-    height: 100vh;
-}
+        .chatbox {
+            background: rgb(14, 14, 14);
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+        }
 
-.chat-input {
-    background: rgb(25, 25, 25);
-    width: 100vw;
-    height: 50px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
-
+        .chat-input {
+            background: rgb(25, 25, 25);
+            width: 100vw;
+            height: 50px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
     </style>
     <title>oxyumai</title>
 </head>
 <body>
-    <div class="sidebar" id="sidebar"></div>
-    <div class="chatbox" id="chatbox"></div>
+    <div class="container">
+        <div class="sidebar" id="sidebar"></div>
+        <div class="chatbox" id="chatbox">Main Chat Content</div>
+    </div>
     <div class="chat-input" id="chat-input"></div>
     <script>
         
