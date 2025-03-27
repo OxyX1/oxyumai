@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "install": "npm install express http path groq-sdk ",
+        "install": "npm install express http path groq-sdk dotenv ",
         "start": "node index.js"
     }
 }

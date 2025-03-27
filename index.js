@@ -1,18 +1,15 @@
+require("dotenv").config(); // Load environment variables from .env file
+
 const express = require("express");
 const http = require("http");
 const path = require("path");
-const { exec } = require("child_process");
 const Groq = require("groq-sdk");
 
-// Ensure the GROQ_API_KEY is properly set in the environment
-exec("export GROQ_API_KEY=$GROQ_API_KEY && echo $GROQ_API_KEY", { env: { ...process.env } }, 
-(error, stdout, stderr) => {
-  if (error) {
-    console.error(`Error: ${error}`);
-    return;
-  }
-  console.log(`GROQ_API_KEY Output: ${stdout}`);
-});
+// Ensure the GROQ_API_KEY is properly set
+if (!process.env.GROQ_API_KEY) {
+  console.error("Error: GROQ_API_KEY is not set. Please define it in your environment or .env file.");
+  process.exit(1);
+}
 
 // Initialize Groq SDK with API Key
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -59,5 +56,5 @@ app.get("/playground", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("Server is successfully running with no errors!");
+  console.log(`Server is successfully running on port ${port}!`);
 });
