@@ -1,0 +1,6 @@
+{
+    "scripts": {
+        "install": "npm install express path url openai",
+        "start": "node index.js"
+    }
+}
