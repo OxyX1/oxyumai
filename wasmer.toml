@@ -2,7 +2,7 @@
 name = "OxyX1/oxyumai"
 version = "0.0.1"
 description = "A website built for finetuning and building ais"
-license = "MIT" # OR license-file = "./LICENSE.md"
+license-file = "./LICENSE.md" # OR license-file = "./LICENSE.md"
 readme = "./README.md"
 repository = "https://github.com/OxyX1/oxyumai.git"
 homepage = "https://oxyumai.wasmer.io"
