@@ -1,0 +1,25 @@
+# wasmer.toml (This is a GUESS - check Wasmer.io documentation!)
+
+[package]
+name = "OxyX1/oxyumai" # Or however Wasmer names packages
+version = "1.0.0" # Should match package.json
+description = "AI Code Assistant WebApp"
+
+[[module]]
+name = "app" # Or "web", "server"
+source = "." # Indicates the current directory
+# For Node.js, you often specify a command or use a pre-built container image
+
+# Option A: If Wasmer has direct Node.js support via commands
+[commands]
+  # This tells Wasmer how to start your application
+  start = "npm run start" # or "node index.js"
+
+# Option B: If Wasmer uses a base image + your code (like Docker)
+# This section would be very specific to Wasmer's containerized deployment for Node.js
+# [fs]
+#   "/" = "static" # Map static files
+
+# [package.metadata.wasmer]
+# runtime = "node" # Hypothetical way to specify runtime
+# entrypoint = "index.js"
