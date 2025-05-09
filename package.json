@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "install": "npm install express multer tesseract.js fs mathjs",
+        "install": "npm install express multer tesseract.js fs mathjs cors",
         "start": "node index.js"
     }
 }
