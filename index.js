@@ -1,50 +1,80 @@
-// THIS IS NOT A WEBSITE, THIS IS OXYUM SCHOOL CHEAT OFFICIAL BACKEND AND OPEN SOURCE.
+const http = require('http');
+const url = require('url');
+const puppeteer = require('puppeteer');
 
-const express = require("express");
-const multer = require("multer");
-const tesseract = require("tesseract.js");
-const math = require("mathjs");
-const fs = require("fs");
-const cors = require("cors");
+// Set this to the exact domain or localhost port of your frontend
+const ALLOWED_ORIGIN = 'switchyard.proxy.rlwy.net:30500'; // change to your frontend URL
 
+async function runBlooketBot(gameCode) {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
 
+    await page.goto('https://play.blooket.com/');
 
-const app = express();
-app.use(cors());
-const PORT = process.env.PORT || 8080;
+    await page.waitForSelector('input[name="gameCode"]');
+    await page.type('input[name="gameCode"]', gameCode);
 
-// Set up multer for file upload
-const upload = multer({ dest: "uploads/" });
+    await page.click('button[type="submit"]');
 
-app.post("/solve", upload.single("image"), async (req, res) => {
-  if (!req.file) return res.status(400).send("No image uploaded.");
+    await page.waitForTimeout(3000);
+    await browser.close();
+}
 
-  try {
-    const { path } = req.file;
+const server = http.createServer(async (req, res) => {
+    const parsedUrl = url.parse(req.url, true);
 
-    // OCR: Extract text from image
-    const { data: { text } } = await tesseract.recognize(path, "eng");
+    // Handle preflight request
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204, {
+            'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+        });
+        return res.end();
+    }
 
-    console.log("OCR Result:", text);
+    // Bot endpoint
+    if (req.method === 'POST' && parsedUrl.pathname === '/api/start-bot') {
+        let body = '';
+        req.on('data', chunk => { body += chunk; });
 
-    // Try to extract and clean math expression
-    const match = text.match(/what\s+is\s+([0-9x+\-*/().\s]+)\??/i);
-    if (!match) return res.status(400).send("No valid math question found.");
+        req.on('end', async () => {
+            try {
+                const { gameCode } = JSON.parse(body);
 
-    const expression = match[1].replace(/x/g, "*").trim();
-    const answer = math.evaluate(expression).toString();
+                if (!gameCode) {
+                    res.writeHead(400, {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': ALLOWED_ORIGIN
+                    });
+                    return res.end(JSON.stringify({ error: 'Missing gameCode' }));
+                }
 
-    console.log(`Question: ${expression} | Answer: ${answer}`);
+                await runBlooketBot(gameCode);
 
-    res.send({ expression, answer });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error processing image.");
-  } finally {
-    fs.unlinkSync(req.file.path); // delete the temp image
-  }
+                res.writeHead(200, {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': ALLOWED_ORIGIN
+                });
+                res.end(JSON.stringify({ success: true, message: 'Bot joined game' }));
+            } catch (err) {
+                res.writeHead(500, {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': ALLOWED_ORIGIN
+                });
+                res.end(JSON.stringify({ error: 'Server error', details: err.message }));
+            }
+        });
+    } else {
+        res.writeHead(404, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': ALLOWED_ORIGIN
+        });
+        res.end(JSON.stringify({ error: 'Not Found' }));
+    }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+const PORT = 8080;
+server.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
