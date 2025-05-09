@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "install": "npm install http url puppeteer",
+        "install": "npm install express puppeteer cors",
         "start": "node index.js"
     }
 }
