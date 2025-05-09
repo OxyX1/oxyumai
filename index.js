@@ -5,8 +5,12 @@ const multer = require("multer");
 const tesseract = require("tesseract.js");
 const math = require("mathjs");
 const fs = require("fs");
+const cors = require("cors");
+
+
 
 const app = express();
+app.use(cors());
 const PORT = process.env.PORT || 8080;
 
 // Set up multer for file upload
