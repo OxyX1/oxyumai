@@ -35,7 +35,7 @@ async function getBrowser() {
     return browserInstance;
 }
 
-app.post('/join-and-get-answer', async (req, res) => {
+app.post('/joinaga', async (req, res) => {
     const { gameId, botName } = req.body;
 
     if (!gameId || !botName) {
