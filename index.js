@@ -1,69 +1,46 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+// THIS IS NOT A WEBSITE, THIS IS OXYUM SCHOOL CHEAT OFFICIAL BACKEND AND OPEN SOURCE.
 
-// __dirname is not available in ES modules, so we define it
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require("express");
+const multer = require("multer");
+const tesseract = require("tesseract.js");
+const math = require("mathjs");
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Middleware to serve static files (HTML, CSS, client-side JS)
-app.use(express.static(path.join(__dirname, 'static')));
+// Set up multer for file upload
+const upload = multer({ dest: "uploads/" });
 
-// Basic route for the root path to ensure index.html is served
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'static', 'index.html'));
-});
+app.post("/solve", upload.single("image"), async (req, res) => {
+  if (!req.file) return res.status(400).send("No image uploaded.");
 
-// --- IMPORTANT: API Proxy Route (Future Enhancement) ---
-// If you want to secure your API key, you would create an endpoint here
-// that your frontend calls. This server endpoint would then make the
-// actual call to OpenAI, adding the API key securely.
-app.use(express.json()); // To parse JSON request bodies
+  try {
+    const { path } = req.file;
 
-app.post('/api/generate', async (req, res) => {
-    const { prompt, temperature, model } = req.body;
-    const apiKey = process.env.OPENAI_API_KEY; // Load from environment variable
+    // OCR: Extract text from image
+    const { data: { text } } = await tesseract.recognize(path, "eng");
 
-    if (!apiKey) {
-        return res.status(500).json({ error: 'API key not configured on server.' });
-    }
-    if (!prompt) {
-        return res.status(400).json({ error: 'Prompt is required.' });
-    }
+    console.log("OCR Result:", text);
 
-    try {
-        const OPENAI_API_URL = 'https://api.openai.com/v1/completions'; // or chat/completions
-        const response = await fetch(OPENAI_API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: model || 'gpt-3.5-turbo-instruct',
-                prompt: prompt,
-                temperature: temperature || 0.5,
-                max_tokens: 500
-            })
-        });
+    // Try to extract and clean math expression
+    const match = text.match(/what\s+is\s+([0-9x+\-*/().\s]+)\??/i);
+    if (!match) return res.status(400).send("No valid math question found.");
 
-        const data = await response.json();
+    const expression = match[1].replace(/x/g, "*").trim();
+    const answer = math.evaluate(expression).toString();
 
-        if (!response.ok) {
-            console.error('OpenAI API Error (from server):', data);
-            return res.status(response.status).json(data);
-        }
-        res.json(data);
+    console.log(`Question: ${expression} | Answer: ${answer}`);
 
-    } catch (error) {
-        console.error('Server error calling OpenAI:', error);
-        res.status(500).json({ error: 'Failed to fetch from OpenAI API.' });
-    }
+    res.send({ expression, answer });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error processing image.");
+  } finally {
+    fs.unlinkSync(req.file.path); // delete the temp image
+  }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
